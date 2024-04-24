@@ -1,98 +1,56 @@
-#  |  |  ___ \    \  |         |
-#  |  |     ) |  |\/ |   _  |  |  /   _ 
-# ___ __|  __/   |   |  (   |    <    __/ 
-#    _|  _____| _|  _| \__,_| _|\_\ \___|
-#                              by jcluzet
-################################################################################
-#                                     CONFIG                                   #
-################################################################################
+NAME = fractol
 
-NAME        := a.out
-CC        := gcc
-FLAGS    := -Wall -Wextra -Werror 
-################################################################################
-#                                 PROGRAM'S SRCS                               #
-################################################################################
+# Compiler
+CC := gcc
 
-SRCS        :=      fractal_init.c \
-                          fractal_render.c \
-                          main.c \
-                          map_function.c \
-                          math_utils.c \
-                          minilibx-linux/mlx_clear_window.c \
-                          minilibx-linux/mlx_destroy_display.c \
-                          minilibx-linux/mlx_destroy_image.c \
-                          minilibx-linux/mlx_destroy_window.c \
-                          minilibx-linux/mlx_expose_hook.c \
-                          minilibx-linux/mlx_ext_randr.c \
-                          minilibx-linux/mlx_flush_event.c \
-                          minilibx-linux/mlx_get_color_value.c \
-                          minilibx-linux/mlx_get_data_addr.c \
-                          minilibx-linux/mlx_hook.c \
-                          minilibx-linux/mlx_init.c \
-                          minilibx-linux/mlx_int_anti_resize_win.c \
-                          minilibx-linux/mlx_int_do_nothing.c \
-                          minilibx-linux/mlx_int_get_visual.c \
-                          minilibx-linux/mlx_int_param_event.c \
-                          minilibx-linux/mlx_int_set_win_event_mask.c \
-                          minilibx-linux/mlx_int_str_to_wordtab.c \
-                          minilibx-linux/mlx_int_wait_first_expose.c \
-                          minilibx-linux/mlx_key_hook.c \
-                          minilibx-linux/mlx_lib_xpm.c \
-                          minilibx-linux/mlx_loop.c \
-                          minilibx-linux/mlx_loop_hook.c \
-                          minilibx-linux/mlx_mouse.c \
-                          minilibx-linux/mlx_mouse_hook.c \
-                          minilibx-linux/mlx_new_image.c \
-                          minilibx-linux/mlx_new_window.c \
-                          minilibx-linux/mlx_pixel_put.c \
-                          minilibx-linux/mlx_put_image_to_window.c \
-                          minilibx-linux/mlx_rgb.c \
-                          minilibx-linux/mlx_screen_size.c \
-                          minilibx-linux/mlx_set_font.c \
-                          minilibx-linux/mlx_string_put.c \
-                          minilibx-linux/mlx_xpm.c \
-                          minilibx-linux/test/main.c \
-                          minilibx-linux/test/new_win.c \
-                          utils.c \
-                          
-OBJS        := $(SRCS:.c=.o)
+# Compiler flags
+CFLAGS := -Wall -Wextra -Werror -g
+
+# Linker flags
+#LDFLAGS := -lglfw -framework Cocoa -framework OpenGL -framework IOKit -LMLX42/build -lmlx42
+LDFLAGS := -lglfw -framework Cocoa -framework OpenGL -framework IOKit -L/Users/aantonie/Desktop/projects/P06.fractol/mlx_practice/MLX42/build -lmlx42
+
+# Directories
+SRC_DIR 	:= src
+INC_DIR 	:= include
+LIB_DIR 	:= MLX42
+LIBFT_DIR 	:= libft
+
+# Source and header files
+SRCS 	:= calculate_mandelbrot.c draw_fractal.c main.c calculate_julia.c fractol_init.c
+OBJS 	:= $(SRCS:.c=.o)
+HEADERS := -I $(INC_DIR) -I $(LIB_DIR)/include -I $(LIBFT_DIR)/include
 
 .c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
-################################################################################
-#                                  Makefile  objs                              #
-################################################################################
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
+# Library
+LIBMLX 	:= $(LIB_DIR)/build/libmlx42.a
+LIBFT 	:= $(LIBFT_DIR)/libft.a
 
-CLR_RMV		:= \033[0m
-RED		    := \033[1;31m
-GREEN		:= \033[1;32m
-YELLOW		:= \033[1;33m
-BLUE		:= \033[1;34m
-CYAN 		:= \033[1;36m
-RM		    := rm -f
+# Executable name
+TARGET := fractol
 
-${NAME}:	${OBJS}
-			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			${CC} ${FLAGS} -o ${NAME} ${OBJS}
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
+# Default target
+all: $(TARGET)
 
-all:		${NAME}
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
-bonus:		all
+$(TARGET): $(LIBFT) $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $^
 
 clean:
-			@ ${RM} *.o */*.o */*/*.o
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
+	rm -f $(OBJS)
+	make -C $(LIBFT_DIR) clean
 
-fclean:		clean
-			@ ${RM} ${NAME}
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
+fclean: clean
+	rm -f $(TARGET)
+	make -C $(LIBFT_DIR) fclean
 
-re:			fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re
-
-
+.PHONY: all clean fclean re
