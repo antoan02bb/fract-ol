@@ -1,6 +1,10 @@
 #include "include/fractol.h"
 
+<<<<<<< HEAD
 void calculate_julia(t_fractol *fractal, double cx, double cy)
+=======
+void calculate_julia(t_fractol *fractal)
+>>>>>>> fractol_new/master
 {
     int i;
     double temp;

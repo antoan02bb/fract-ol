@@ -6,7 +6,7 @@
 /*   By: aantonie <aantonie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 20:20:36 by aantonie          #+#    #+#             */
-/*   Updated: 2024/04/30 00:32:57 by aantonie         ###   ########.fr       */
+/*   Updated: 2024/04/30 00:57:27 by aantonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ int	draw_fractal(t_fractol *fractal, char *input, double cx, double cy)
 		fractal->x++;
 		fractal->y = 0;
 	}
-
 	return (0);
 }
