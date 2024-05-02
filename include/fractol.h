@@ -41,6 +41,9 @@ typedef struct s_fractol
 
     double zoom;
 
+    double zoomCenterX;
+    double zoomCenterY;
+
     // range of real nums
     double min_r; 
     double max_r;

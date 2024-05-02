@@ -15,12 +15,16 @@ void calculate_julia(t_fractol *fractal, double cx, double cy)
     fractal->cx = cx;
     fractal->cy = cy; 
     
-    // // set the z coordinates to the current point
+    // set the z coordinates to the current point
     // fractal->zx = (fractal->min_r + (fractal->max_r - fractal->min_r) * (fractal->x) / WIDTH);
     // fractal->zy = (fractal->max_i - (fractal->max_i - fractal->min_i) * (fractal->y) / HEIGHT);
 
     fractal->zx = fractal->min_r + (fractal->max_r - fractal->min_r) * (fractal->x) / WIDTH;
     fractal->zy = fractal->min_i + (fractal->max_i - fractal->min_i) * (fractal->y) / HEIGHT;
+
+       // Initialize the zoom center to the middle of the complex plane
+    // fractal->zoomCenterX = (fractal->min_r + fractal->max_r) / 2;
+    // fractal->zoomCenterY = (fractal->min_i + fractal->max_i) / 2;
 
     while (i < MAX_ITERATIONS)
     {
@@ -29,9 +33,9 @@ void calculate_julia(t_fractol *fractal, double cx, double cy)
 
         temp = 2 * fractal->zx * fractal->zy + fractal->cyj;
 
-        fractal->zx = fractal->zx * fractal->zx - fractal->zy * fractal->zy + fractal->cxj;
+        fractal->zx = (fractal->zx * fractal->zx - fractal->zy * fractal->zy + fractal->cxj) * fractal->zoom;
 
-        fractal->zy = temp;
+        fractal->zy = temp * fractal->zoom;
 
         i++;
     }
@@ -52,10 +56,9 @@ void calculate_julia(t_fractol *fractal, double cx, double cy)
 
     int color;
     if (i == MAX_ITERATIONS)
-        // green
-        color = 0x0000AAFF;
+        color = 0x0000FFFF;
     else
-        color = 0x0000FFFF; //get_color(i);
+        color = ft_pixel( i % 64, i % 128, i % 255, 255);
 
     // Draw the pixel to the image
     mlx_put_pixel(fractal->img, fractal->x, fractal->y, color);

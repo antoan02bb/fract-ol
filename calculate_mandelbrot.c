@@ -49,12 +49,10 @@ void calculate_mandelbrot(t_fractol *fractal)
     int color;
     if (i == MAX_ITERATIONS)
         // green
-        color = ft_pixel(i % 128, i % 64, i % 255, 255);
-    else
         color = 0x0000FFFF;
-        // color = fractal->color * i;
+    else
+        color = ft_pixel( i % 64, i % 128, i % 255, 255);
     
-
     // Draw the pixel to the image
     mlx_put_pixel(fractal->img, fractal->x, fractal->y, color);
 }
