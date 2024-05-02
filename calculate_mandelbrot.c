@@ -25,31 +25,33 @@ void calculate_mandelbrot(t_fractol *fractal)
     // set the c coorfinates to the current point
 
     // from pixel to complex number
-    fractal->cx = (fractal->x / fractal->zoom) + fractal->offset_x;
-    fractal->cy = (fractal->y / fractal->zoom) + fractal->offset_y;
+    fractal->cx = (fractal->min_r + (fractal->max_r - fractal->min_r) * (fractal->x) / WIDTH);
+    fractal->cy = (fractal->max_i - (fractal->max_i - fractal->min_i) * (fractal->y) / HEIGHT);
 
-    while (++i < MAX_ITERATIONS)
+    while (i < MAX_ITERATIONS)
     {
         // x_temp = zx^2 - zy^2 + cx
         x_temp = fractal->zx * fractal->zx - fractal->zy * fractal->zy + fractal->cx;
 
         // zy = 2 * zx * zy + cy
-        fractal->zy = 2 * fractal->zx * fractal->zy + fractal->cy;
+        fractal->zy = (2 * fractal->zx * fractal->zy + fractal->cy) * fractal->zoom;
 
         // zx = x_temp
-        fractal->zx = x_temp;
+        fractal->zx = x_temp * fractal->zoom;
 
         // if the magnitude of z is greater than 2, then the point is not in the mandelbrot set
         if (fractal->zx * fractal->zx + fractal->zy * fractal->zy >= 4.0)
             break;
+
+        i++;
     }
 
     int color;
     if (i == MAX_ITERATIONS)
         // green
-        color = 0x0000FFFF;
+        color = ft_pixel(i % 128, i % 64, i % 255, 255);
     else
-        color = 0x00FF00FF;
+        color = 0x0000FFFF;
         // color = fractal->color * i;
     
 

@@ -23,7 +23,7 @@ int	main(int argc, char *argv[])
 
 	fractol->mlx = mlx;
 	fractol->img = img;
-
+	//mlx_cursor_hook
 	init_fractol(fractol);
 
 
@@ -35,7 +35,10 @@ int	main(int argc, char *argv[])
 	}
 	else if (argc == 4 && (ft_strncmp(argv[1], "julia", 5) == 0))
 	{
-		draw_fractal(fractol, argv[1], ft_atoi(argv[2]), ft_atoi(argv[3]));
+		fractol->cxj = atof(argv[2]);
+		fractol->cyj = atof(argv[3]);
+
+		draw_fractal(fractol, argv[1], fractol->cxj, fractol->cyj);
 		mlx_image_to_window(mlx, img, 0, 0);
 	}
 	else
@@ -44,22 +47,19 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	printf("Before mlx_scroll_hook\n");
-	mlx_scroll_hook(mlx, &mouse_handler, &fractol);
+
+	mlx_key_hook(mlx, key_handler, fractol);
+
+	mlx_scroll_hook(mlx, mouse_handler, fractol);
+
+	//mlx_cursor_hook(mlx, cursor_handler, fractol);
+
 	printf("After mlx_scroll_hook\n");
-
 	mlx_loop(fractol->mlx);
+	mlx_terminate(fractol->mlx);
 	printf("After if statement\n");
+
+	return (EXIT_SUCCESS);
 }
-
-
-	// (void)argc;
-	// (void)argv;
-
-
-// if (draw_fractal(fractol) == -1)
-		// {
-		// 	printf("Error in draw_fractals %d\n", draw_fractal(fractol));
-		// 	return (1);
-		// }
 
 	

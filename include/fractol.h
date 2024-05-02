@@ -6,15 +6,12 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
-
-// Colors
-#define COLOR_BLACK     BlackPixel(display, screen)   // Represents the color black
-#define COLOR_WHITE     WhitePixel(display, screen)   // Represents the color white
+#include <math.h>
 
 // Window size
-#define WIDTH 500
-#define HEIGHT 500
-#define MAX_ITERATIONS 100
+#define WIDTH 1000
+#define HEIGHT 1000
+#define MAX_ITERATIONS 50
 
 
 // Image structure
@@ -38,6 +35,9 @@ typedef struct s_fractol
 
     double cx; // real part
     double cy; // imaginary part
+
+    double cxj;
+    double cyj;
 
     double zoom;
 
@@ -66,18 +66,21 @@ void calculate_mandelbrot(t_fractol *fractal);
 void calculate_julia(t_fractol *fractal, double cx, double cy);
 
 // fractol.c
-void create_image(t_fractol *fractal);
-void display_image(t_fractol *fractal);
-int draw_fractal_pixels(t_fractol *fractal, char *str, double cx, double cy);
-int draw_fractal(t_fractol *fractal, char *input, double cx, double cy);
-void init_fractol(t_fractol *fractol);
+void    create_image(t_fractol *fractal);
+void    display_image(t_fractol *fractal);
+int     draw_fractal_pixels(t_fractol *fractal, char *str, double cx, double cy);
+int     draw_fractal(t_fractol *fractal, char *input, double cx, double cy);
+void    init_fractol(t_fractol *fractol);
 
 
 // mouse.c
 void zoom(t_fractol *fractol, int x, int y, double zoom_factor);
-void mouse_handler(double x, double y, void *param);
+void mouse_handler(double delta_x, double delta_y, void *param);
 
-// init_fractol.c
-//void init_fractol(t_fractol *fractal, double cx, double cy, char *name);
+void key_handler(mlx_key_data_t keydata, void *param);
+
+//int get_color(int i);
+
+int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 
 #endif

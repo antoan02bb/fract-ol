@@ -17,7 +17,10 @@ LIB_DIR 	:= MLX42
 LIBFT_DIR 	:= libft
 
 # Source and header files
-SRCS 	:= calculate_mandelbrot.c draw_fractal.c main.c calculate_julia.c init_fractol.c mouse.c
+SRCS 	:= calculate_mandelbrot.c draw_fractal.c main.c \
+		   calculate_julia.c \
+		   init_fractol.c mouse.c key.c ft_color.c
+
 OBJS 	:= $(SRCS:.c=.o)
 HEADERS := -I $(INC_DIR) -I $(LIB_DIR)/include -I $(LIBFT_DIR)/include
 
