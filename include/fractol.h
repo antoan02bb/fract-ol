@@ -74,10 +74,11 @@ void    display_image(t_fractol *fractal);
 int     draw_fractal_pixels(t_fractol *fractal, char *str, double cx, double cy);
 int     draw_fractal(t_fractol *fractal, char *input, double cx, double cy);
 void    init_fractol(t_fractol *fractol);
+int     get_color(unsigned int i);
 
 
 // mouse.c
-void zoom(t_fractol *fractol, int x, int y, double zoom_factor);
+void zoom(double zoom_factor, t_fractol *fractol);
 void mouse_handler(double delta_x, double delta_y, void *param);
 
 void key_handler(mlx_key_data_t keydata, void *param);

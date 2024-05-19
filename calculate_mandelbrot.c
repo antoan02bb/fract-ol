@@ -19,10 +19,8 @@ void calculate_mandelbrot(t_fractol *fractal)
     i = 0;
 
     // set the z coordinates to 0
-    fractal->zx = 0.0; // real part
-    fractal->zy = 0.0; // imaginary part
-
-    // set the c coorfinates to the current point
+    fractal->zx = 0.0;
+    fractal->zy = 0.0;
 
     // from pixel to complex number
     fractal->cx = (fractal->min_r + (fractal->max_r - fractal->min_r) * (fractal->x) / WIDTH);
@@ -48,10 +46,9 @@ void calculate_mandelbrot(t_fractol *fractal)
 
     int color;
     if (i == MAX_ITERATIONS)
-        // green
-        color = 0x0000FFFF;
+        color = get_color(i);
     else
-        color = ft_pixel( i % 64, i % 128, i % 255, 255);
+        color = get_color(i);
     
     // Draw the pixel to the image
     mlx_put_pixel(fractal->img, fractal->x, fractal->y, color);

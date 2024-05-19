@@ -1,5 +1,10 @@
 #include "include/fractol.h"
 
+
+/**
+ * @note the formula for the julia set is z = z^2 + c
+ * 
+*/
 void calculate_julia(t_fractol *fractal, double cx, double cy)
 {
     int i;
@@ -40,7 +45,17 @@ void calculate_julia(t_fractol *fractal, double cx, double cy)
         i++;
     }
 
-//     int julia(t_fractol *f)
+    int color;
+    if (i == MAX_ITERATIONS)
+        color = get_color(i);
+    else
+        color = get_color(i);
+
+    // Draw the pixel to the image
+    mlx_put_pixel(fractal->img, fractal->x, fractal->y, color);
+}
+
+//    int julia(t_fractol *f)
 // {
 //     int     n;
 //     double  temp;
@@ -53,13 +68,3 @@ void calculate_julia(t_fractol *fractal, double cx, double cy)
 //         n++;
 //     }
 // }
-
-    int color;
-    if (i == MAX_ITERATIONS)
-        color = 0x0000FFFF;
-    else
-        color = ft_pixel( i % 64, i % 128, i % 255, 255);
-
-    // Draw the pixel to the image
-    mlx_put_pixel(fractal->img, fractal->x, fractal->y, color);
-}

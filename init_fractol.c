@@ -26,7 +26,7 @@ void init_fractol(t_fractol *fractol)
     fractol->max_i = 2.0;
     fractol->x = 0;
 	fractol->y = 0;
-	fractol->zoom = 1; // This will cover the range [-2.0, 0.5] over the width of the image
+	fractol->zoom = 1.3; // This will cover the range [-2.0, 0.5] over the width of the image
     // fractol->zoom_factor = 1.2;
 
     // color is purple
